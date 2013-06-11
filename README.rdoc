@@ -1,0 +1,56 @@
+= RedactorS3
+This gem provides easy integration between redactor.js and Amazon S3 for rails applications
+
+== Getting started
+1. Add the gem:
+	gem 'redactor_s3'
+2. Mount it inside your routes:
+	mount RedactorS3::Engine => "/s3"
+
+== Configuration
+Create an initializer with the following:
+	# These are required options
+	RedactorS3.application_host = 'www.example.com' # your domain
+	RedactorS3.bucket = 'mybucket' # your s3 bucket name
+	RedactorS3.access_key = 'AWS_ACCESS_KEY_ID' # your aws access key id
+	RedactorS3.secret_key = 'AWS_SECRET_ACCESS_KEY' #your aws secret access key
+
+	# These are optinal options
+	# RedactorS3.endpoint = 's3-eu-west-1.amazonaws.com' # use this for eu buckets
+	# RedactorS3.s3_host = 'mybucket.example.com' # use this if you have a alias for your s3 bucket
+	# RedactorS3.prefix = 'files' # all uploads goes the this folder
+
+== Usage
+To use it you need to render some hidden fields in your views where you will be using redactor
+Example:
+	# edit.html.rb
+	...
+	...
+	<textarea class="redactor"></textarea>
+	<%= render 'redactor_s3/files/config' %>
+
+You then need to configure your redactor instance in jquery:
+	# edit.js
+	...
+	...
+	$("textarea.redactor").redactor({
+		...
+		...
+		imageUpload: $("#aws_endpoint").val(),
+	    uploadCrossDomain: true,
+	    uploadFields: {
+	        'key': '#aws_key',
+	        'AWSAccessKeyId': '#aws_access_key',
+	        'acl': '#aws_acl',
+	        'success_action_redirect': '#aws_success_path',
+	        'policy': '#aws_policy',
+	        'signature': '#aws_signature',
+	        'Content-Type': '#aws_content_type'
+	    },
+	    imageGetJson: $("#aws_files_path").val()
+	});
+
+
+You should now be ready to go
+
+This project rocks and uses MIT-LICENSE.
