@@ -5,15 +5,13 @@ require_dependency "jbuilder"
 module RedactorS3
   class FilesController < ApplicationController
     def success
-      settings = Settings.new
-      render json: { filelink: "http://#{settings.s3_host}/#{params[:key]}" }
+      render json: { filelink: "#{RedactorS3.config.s3_host_url}/#{params[:key]}" }
     end
     
     def index
-      @settings = Settings.new
-      s3 = AWS::S3.new access_key_id: @settings.access_key, secret_access_key: @settings.secret_key, s3_endpoint: @settings.endpoint
-      bucket = s3.buckets[@settings.bucket]
-      @files = bucket.objects.with_prefix(@settings.prefix)
+      s3 = AWS::S3.new access_key_id: RedactorS3.config.access_key, secret_access_key: RedactorS3.config.secret_key, s3_endpoint: RedactorS3.config.endpoint
+      bucket = s3.buckets[RedactorS3.config.bucket]
+      @files = bucket.objects.with_prefix(RedactorS3.config.prefix)
     end
   end
 end

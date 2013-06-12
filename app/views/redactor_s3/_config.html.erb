@@ -1,0 +1,9 @@
+<input type="hidden" id="aws_key" name="aws_key" value="<%= RedactorS3.config.prefix %>${filename}">
+<input type="hidden" id="aws_access_key" name="aws_access_key" value="<%= RedactorS3.config.access_key %>">
+<input type="hidden" id="aws_acl" name="aws_acl" value="public-read">
+<input type="hidden" id="aws_success_path" name="aws_success_path" value="<%= RedactorS3.config.success_url %>">
+<input type="hidden" id="aws_policy" name="aws_policy" value="<%= RedactorS3.config.policy %>">
+<input type="hidden" id="aws_signature" name="aws_signature" value="<%= RedactorS3.config.signature %>">
+<input type="hidden" id="aws_content_type" name="aws_content_type" value="">
+<input type="hidden" id="aws_endpoint" name="aws_endpoint" value="<%= RedactorS3.config.bucket_url %>">
+<input type="hidden" id="aws_files_path" name="aws_files_path" value="/s3/files">
